@@ -12,7 +12,7 @@ module Solver
 
     def report(pattern, misses)
       words = @reducer.possibles pattern, misses
-      analysis = Frequency.frequency_report words
+      analysis = Frequency.frequency_report words, pattern
       return [analysis, words.first(10)]
     end
 

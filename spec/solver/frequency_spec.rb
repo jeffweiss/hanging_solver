@@ -45,5 +45,33 @@ module Solver
         @letters.count { |e| e == :l}.should == 1
       end
     end
+    
+    describe "report" do
+      before(:each) do
+        @words = ['lilly', 'silly', 'hilly', 'willy', 'silty', 'wilty', 'ailed', 'riled', 'filed', 'piled']
+        @clue = '.i...'
+        @report = Frequency.frequency_report(@words, @clue)
+      end
+      it "should return at most 10 letters" do
+        @report.length.should <= 10
+      end
+      it "should exclude the hits from clue" do
+        hits = @clue.gsub('.', '')
+        @report.each do |x|
+          x.each do |k, v|
+            hits.include?(k.to_s).should be_false
+          end
+        end
+      end
+      it "should be sorted by frequency descending" do
+        last = @words.length
+        @report.each do |x|
+          x.each do |k,v|
+            v.should <= last
+            last = v
+          end
+        end
+      end
+    end  
   end
 end
